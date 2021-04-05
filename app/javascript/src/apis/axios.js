@@ -1,5 +1,5 @@
 import axios from "axios";
 axios.defaults.headers = {
-  Accept: "application/json",
+  Accept: "applicaion/json",
   "Content-Type": "application/json",
 };

@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  verbiage: MyString
+  answer: one
+
+two:
+  verbiage: MyString
+  answer: two
