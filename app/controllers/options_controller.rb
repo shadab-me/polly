@@ -46,7 +46,7 @@ class OptionsController < ApplicationController
       end
     end
   end
-
+current_user 
   # DELETE /options/1 or /options/1.json
   def destroy
     @option.destroy

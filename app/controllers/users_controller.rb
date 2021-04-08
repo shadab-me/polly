@@ -1,15 +1,16 @@
 class UsersController < ApplicationController
-    def index
-        @users = User.all.as_json(only: %[id name])
+ skip_before_action :verify_authenticity_token
+     def index
+        @users = User.all
         render status: :ok, json: {users: @users}
     end
 
     def create
         @user = User.new(user_params);
         if @user.save
-            render status: ok, json: {notice: "User Created Successfully!"}
+        render status: :ok, json: {auth_token: @user.authentication_token, userId: @user.id}  
     else
-        render status: unprocessable_entity, json: {
+        render status: 422, json: {
             errors: @user.errors.full_messages.to_sentence
         }
     end

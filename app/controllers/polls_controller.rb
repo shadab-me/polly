@@ -1,10 +1,12 @@
 class PollsController < ApplicationController
-  before_action :set_poll, only: %i[ show edit update destroy ]
+   skip_before_action :verify_authenticity_token
+  before_action :authenticate_user_using_x_auth_token, except: [:index, :show]
 
   # GET /polls or /polls.json
   def index
-    @polls = Poll.all
-  end
+        @polls = Poll.all
+        render status: :ok, json: {polls: @polls} 
+   end
 
   # GET /polls/1 or /polls/1.json
   def show
@@ -21,10 +23,11 @@ class PollsController < ApplicationController
 
   # POST /polls or /polls.json
   def create
-    @poll = Poll.new(poll_params)
+    puts @current_user.inspect
+    @poll = Poll.new(poll_params.merge(user_id: @current_user.id))
     respond_to do |format|
       if @poll.save
-        format.html { redirect_to @poll, notice: "Poll was successfully created." }
+        #format.html { redirect_to @poll, notice: "Poll was successfully created." }
         format.json { render :show, status: :created, location: @poll }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -59,10 +62,11 @@ class PollsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_poll
       @poll = Poll.find(params[:id])
+      puts @poll
     end
 
     # Only allow a list of trusted parameters through.
     def poll_params
-      params.require(:poll).permit(:value)
+      params.require(:poll).permit(:value, :user_id, :id)
     end
 end
