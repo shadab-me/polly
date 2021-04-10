@@ -23,7 +23,7 @@ export default function Login(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     authApi.login({ login: user }).then(({ data }) => {
-      setToLocalStorage(data.auth_token, data.userId);
+      setToLocalStorage(data.auth_token, data.userId, data.email);
       redirect();
     });
   };
@@ -33,7 +33,7 @@ export default function Login(props) {
   };
 
   return (
-    <div>
+    <>
       <div className="container mx-auto p-8 flex">
         <div className="max-w-md w-full mx-auto">
           <h1 className="text-4xl text-center mb-12 font-thin">Login</h1>
@@ -102,6 +102,6 @@ export default function Login(props) {
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }

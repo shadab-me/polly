@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import pollList from "apis/poll";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [polls, setPolls] = useState([]);
@@ -21,7 +22,7 @@ function Home() {
             key={poll.id}
             className="p-3 bg-gray-200 text-lg text-blue-600 m-2 rounded-lg"
           >
-            {poll.value}
+            <Link to={`/poll/${poll.id}`}>{poll.value}</Link>
           </li>
         ))}
       </ul>

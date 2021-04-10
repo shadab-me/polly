@@ -23,7 +23,7 @@ export default function Login(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     authApi.signup({ user }).then(({ data }) => {
-      setToLocalStorage(data.auth_token, data.userId);
+      setToLocalStorage(data.auth_token, data.userId, data.email);
       redirect();
     });
   };
