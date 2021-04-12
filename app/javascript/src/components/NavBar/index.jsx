@@ -33,7 +33,13 @@ const NavBar = ({ isLoggedIn }) => {
                 to="/"
                 className="font-semibold items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-3  px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 bg-blue-600 focus:border-none text-blue-200"
               >
-                Home
+                <span className="text-white">Home</span>
+              </Link>
+              <Link
+                to="/createpoll"
+                className="font-semibold items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-3  px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 focus:border-none text-blue-200"
+              >
+                Create Poll
               </Link>
               <a
                 onClick={logoutHandler}
@@ -48,7 +54,7 @@ const NavBar = ({ isLoggedIn }) => {
                 to="/"
                 className="font-semibold items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-1  px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 bg-blue-600 focus:border-none text-blue-200"
               >
-                Home
+                <span className="text-white"> Home </span>
               </Link>
               <Link
                 to="/login"

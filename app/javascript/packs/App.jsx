@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Route,
   Switch,
@@ -6,7 +6,7 @@ import {
   Redirect,
   RedirectRoute,
 } from "react-router-dom";
-import initializeLogger from "../src/common/logger";
+import initializeLogger from "common/logger";
 import LoginForm from "components/Authentication/Login";
 import SignupForm from "components/Authentication/Signup";
 import Home from "components/Home";
@@ -14,12 +14,15 @@ import NavBar from "components/NavBar";
 import CreatePoll from "components/Poll/CreatePoll";
 import Poll from "components/Poll/Poll";
 import { getFromLocalStorage, setToLocalStorage } from "../src/helpers/storage";
+import { registerIntercepts, setAuthHeaders } from "apis/axios";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    /*eslint no-undef: "off"*/
     initializeLogger();
-    logger.info("Log from js-logger");
+    registerIntercepts();
+    setAuthHeaders(setLoading);
   }, []);
 
   const isLoggedIn =
@@ -29,6 +32,7 @@ const App = () => {
   return (
     <Router>
       <NavBar isLoggedIn={isLoggedIn} />
+      <ToastContainer />
       {isLoggedIn ? (
         <AuthRoutes isLoggedIn={isLoggedIn} />
       ) : (

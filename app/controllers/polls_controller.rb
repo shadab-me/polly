@@ -3,28 +3,21 @@ class PollsController < ApplicationController
   before_action :authenticate_user_using_x_auth_token, except: [:index, :show]
   before_action :set_poll,  only: [:show]
 
-  # GET /polls or /polls.json
-  def index
+   def index
         @polls = Poll.all
         render status: :ok, json: {polls: @polls} 
    end
 
-  # GET /polls/1 or /polls/1.json
-  def show
+   def show
+      @options = @poll.options
+      @votes = @poll.votes
+      render status: :ok, json: {poll: @poll, options:@options, vote:@votes}
+    end
 
+   def new
   end
 
-  # GET /polls/new
-  def new
-    @poll = Poll.new
-  end
-
-  # GET /polls/1/edit
-  def edit
-  end
-
-  # POST /polls or /polls.json
-  def create
+   def create
      @poll = Poll.new(poll_params.merge(user_id: @current_user.id))
     respond_to do |format|
       if @poll.save
@@ -36,39 +29,13 @@ class PollsController < ApplicationController
       end
     end
   end
-
-  # PATCH/PUT /polls/1 or /polls/1.json
-  def update
-    respond_to do |format|
-      if @poll.update(poll_params)
-        format.html { redirect_to @poll, notice: "Poll was successfully updated." }
-        format.json { render :show, status: :ok, location: @poll }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @poll.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /polls/1 or /polls/1.json
-  def destroy
-    @poll.destroy
-    respond_to do |format|
-      format.html { redirect_to polls_url, notice: "Poll was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
+   
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_poll
+     def set_poll
       @poll = Poll.find(params[:id])
-      puts 'hi'
-      puts @poll.inspect
-   end
+     end 
 
-    # Only allow a list of trusted parameters through.
-    def poll_params
+     def poll_params
       params.require(:poll).permit(:value, :user_id, options_attributes: [:value])
     end
 end
