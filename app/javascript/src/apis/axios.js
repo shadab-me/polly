@@ -6,12 +6,11 @@ export const setAuthHeaders = (setLoading = () => null) => {
   axios.defaults.headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
-    "X-CSRF-TOKEN": document
-      .querySelector('[name="csrf-token"]')
-      .getAttribute("content"),
   };
+
   const token = localStorage.getItem("authToken");
   const email = localStorage.getItem("email");
+
   if (token && email) {
     axios.defaults.headers["X-Auth-Email"] = email;
     axios.defaults.headers["X-Auth-Token"] = token;
@@ -19,20 +18,17 @@ export const setAuthHeaders = (setLoading = () => null) => {
   setLoading(false);
 };
 
-const handleSuccessResponse = (response) => {
-  if (response) {
-    response.success = response.status === 200;
-    if (response.data.notice) {
-      Toastr.success(response.data.notice);
+const successResponse = (res) => {
+  if (res) {
+    res.success = res.status === 200;
+    if (res.data.notice) {
+      Toastr.success(res.data.notice);
     }
   }
-  return response;
+  return res;
 };
 
-const handleErrorResponse = (error) => {
-  if (error.response?.status === 401) {
-    setToLocalStorage({ authToken: null, email: null, userId: null });
-  }
+const errorResponse = (error) => {
   Toastr.error(
     error.response?.data?.errors ||
       error.response?.data?.notice ||
@@ -46,13 +42,15 @@ const handleErrorResponse = (error) => {
   return Promise.reject(error);
 };
 
-export const registerIntercepts = () => {
-  axios.interceptors.response.use(handleSuccessResponse, (error) =>
-    handleErrorResponse(error)
-  );
+export const requestIntercepts = () => {
+  axios.interceptors.response.use(successResponse, (error) => {
+    return errorResponse(error);
+  });
 };
 
 export const resetAuthTokens = () => {
   delete axios.defaults.headers["X-Auth-Email"];
   delete axios.defaults.headers["X-Auth-Token"];
 };
+
+export default Toastr;

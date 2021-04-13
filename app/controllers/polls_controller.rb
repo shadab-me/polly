@@ -11,21 +11,19 @@ class PollsController < ApplicationController
    def show
       @options = @poll.options
       @votes = @poll.votes
-      render status: :ok, json: {poll: @poll, options:@options, vote:@votes}
+      render status: :ok, json: {poll: @poll, options:@options, votes:@votes}
     end
 
    def new
-  end
+   end
 
    def create
      @poll = Poll.new(poll_params.merge(user_id: @current_user.id))
     respond_to do |format|
       if @poll.save
-        #format.html { redirect_to @poll, notice: "Poll was successfully created." }
-        format.json { render :show, status: :created, location: @poll }
+         format.json { render :show, status: :created, location: @poll, notice: "Poll Created Successfully!"}
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @poll.errors, status: :unprocessable_entity }
+         format.json { render json: @poll.errors, status: :unprocessable_entity }
       end
     end
   end

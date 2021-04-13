@@ -1,9 +1,10 @@
 import React from "react";
 import NavItem from "./NavItem";
 import { Link } from "react-router-dom";
-import { getFromLocalStorage, setToLocalStorage } from "helpers/storage";
+import { getFromLocalStorage } from "../../helpers/storage";
 
 const NavBar = ({ isLoggedIn }) => {
+  const username = getFromLocalStorage("name");
   const logoutHandler = async () => {
     try {
       //await authApi.logout(userId);
@@ -29,12 +30,7 @@ const NavBar = ({ isLoggedIn }) => {
           </div>
           {isLoggedIn ? (
             <div className="flex item-center justify-end">
-              <Link
-                to="/"
-                className="font-semibold items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-3  px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 bg-blue-600 focus:border-none text-blue-200"
-              >
-                <span className="text-white">Home</span>
-              </Link>
+              <p className="text-dark font-semibold mt-4 p-2">{username}</p>
               <Link
                 to="/createpoll"
                 className="font-semibold items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-3  px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 focus:border-none text-blue-200"

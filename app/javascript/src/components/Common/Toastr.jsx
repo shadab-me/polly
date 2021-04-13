@@ -34,7 +34,6 @@ const showToastr = (message) => {
 };
 
 const isError = (e) => e && e.stack && e.message;
-
 const showErrorToastr = (error) => {
   const errorMessage = isError(error) ? error.message : error;
   toast.error(<ToastrComponent type="error" message={errorMessage} />, {

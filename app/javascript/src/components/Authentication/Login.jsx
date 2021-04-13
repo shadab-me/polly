@@ -23,7 +23,7 @@ export default function Login(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     authApi.login({ login: user }).then(({ data }) => {
-      setToLocalStorage(data.auth_token, data.userId, data.email);
+      setToLocalStorage(data);
       redirect();
     });
   };
@@ -73,17 +73,6 @@ export default function Login(props) {
                     onChange={handleChange}
                   />
                 </div>
-                {errors ? (
-                  <div>
-                    <ul>
-                      {errors.map((error) => {
-                        return <li key={error}>{error}</li>;
-                      })}
-                    </ul>
-                  </div>
-                ) : (
-                  ""
-                )}
 
                 <button
                   type="submit"

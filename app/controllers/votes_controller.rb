@@ -2,11 +2,12 @@ class VotesController < ApplicationController
      skip_before_action :verify_authenticity_token
      before_action :authenticate_user_using_x_auth_token
      before_action :check_vote_existance, only: %i[create]
-     
+
    def create
        @vote = Vote.new(vote_params.merge(user_id: @current_user.id))
+        puts @vote
         if @vote.save
-        render status: :ok, json: {vote: @vote} 
+        render status: :ok, json: {vote: @vote, notice:"Voted Successfully!" } 
       else
          format.json { render json: @vote.errors, status: :unprocessable_entity}
     end
@@ -18,7 +19,7 @@ class VotesController < ApplicationController
       user_id: @current_user
    )
     unless vote.length == 0
-      render status: :unprocessable_entity, json: { errors: t('duplicate_vote')}  
+      render status: :unprocessable_entity, json: { errors: ('duplicate_vote')}  
     end
 end
 

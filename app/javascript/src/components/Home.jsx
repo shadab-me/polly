@@ -3,19 +3,30 @@ import { useEffect } from "react";
 import axios from "axios";
 import { pollList } from "apis/poll";
 import { Link } from "react-router-dom";
+import PageLoader from "./PageLoader";
 
 function Home() {
   const [polls, setPolls] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const fetchPolls = () => {
-    pollList().then(({ data }) => setPolls(data.polls));
+    pollList().then(({ data }) => {
+      setPolls(data.polls);
+      setLoading(false);
+    });
   };
   useEffect(() => {
     fetchPolls();
   }, []);
 
+  if (loading) {
+    return <PageLoader />;
+  }
   return (
     <div className="bg-gray-300 mt-10 p-3">
-      <h1 className="text-4xl text-center font-bold p-5 mt-5">All Polls</h1>
+      <h1 className="text-4xl text-center font-bold p-5 mt-5 text-blue-900">
+        All Polls
+      </h1>
       <ul className="w-1/2 mx-auto my-0">
         {polls.map((poll) => (
           <li key={poll.id} className="flex h-full">

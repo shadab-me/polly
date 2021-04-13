@@ -14,21 +14,22 @@ import NavBar from "components/NavBar";
 import CreatePoll from "components/Poll/CreatePoll";
 import Poll from "components/Poll/Poll";
 import { getFromLocalStorage, setToLocalStorage } from "../src/helpers/storage";
-import { registerIntercepts, setAuthHeaders } from "apis/axios";
+import { requestIntercepts, setAuthHeaders } from "apis/axios";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { either, isEmpty, isNil } from "ramda";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     initializeLogger();
-    registerIntercepts();
+    requestIntercepts();
     setAuthHeaders(setLoading);
   }, []);
-
+  const authToken = getFromLocalStorage("authToken");
   const isLoggedIn =
-    getFromLocalStorage("authToken") !== null ||
-    (undefined && getFromLocalStorage("email"));
-
+    !either(isNil, isEmpty)(authToken) && authToken !== "undefined";
+  console.log(isLoggedIn);
   return (
     <Router>
       <NavBar isLoggedIn={isLoggedIn} />
@@ -55,12 +56,10 @@ const UnAuthRoutes = ({ isLoggedIn }) => {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact path="/poll/:id" component={Poll} />
       <Route exact path="/login" component={LoginForm} />
       <Route exact path="/signup" component={SignupForm} />
       <Route path="*" component={LoginForm} />)
     </Switch>
   );
 };
-
 export default App;

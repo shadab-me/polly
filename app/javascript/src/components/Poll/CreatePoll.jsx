@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { createPoll } from "apis/poll";
+import { set } from "ramda";
+import PageLoader from "../PageLoader";
+
 const CreatePoll = () => {
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(false);
   const [pollData, setPollData] = useState({
     question: "",
     option_one: "",
@@ -9,18 +15,26 @@ const CreatePoll = () => {
     option_three: "",
     option_four: "",
   });
+
   const poll = {
     value: pollData.question,
     options_attributes: [
-      { value: pollData.question_one },
-      { value: pollData.question_two },
-      { value: pollData.question_three },
-      { value: pollData.question_four },
+      { value: pollData.option_one },
+      { value: pollData.option_two },
+      { value: pollData.option_three },
+      { value: pollData.option_four },
     ],
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("/polls", { poll });
+    createPoll({ poll })
+      .then((data) => {
+        if (data) {
+          if (data.status == 201) setStatus(true);
+        }
+      })
+      .catch((error) => Logger.error(error));
+    setLoading(false);
   };
 
   const handleChange = (e) => {
@@ -30,6 +44,17 @@ const CreatePoll = () => {
       [name]: value,
     }));
   };
+
+  if (loading) {
+    return <PageLoader />;
+  }
+  if (status) {
+    return (
+      <h2 className="text-3xl font-bold text-center mt-10 text-green-400">
+        Poll Created Successfully.
+      </h2>
+    );
+  }
 
   return (
     <>

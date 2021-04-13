@@ -9,14 +9,15 @@ const poll = (id) => axios.get(`/polls/${id}`);
 const singlePoll = (id) => {
   return poll(id);
 };
-const dataPoll = (payload) => axios.post("/votes", payload);
+const newPoll = (payload) => axios.post("/polls", payload);
 const createPoll = (payload) => {
-  return dataPoll(payload);
+  return newPoll(payload);
 };
 
-/*const vote = (payload) => axios.post("/votes", payload);
-const vote = (payload) => {
-  return vote(payload);
+const newVote = (payload) => axios.post("/votes", payload);
+
+const createVote = (payload) => {
+  return newVote(payload);
 };
-*/
-export { pollList, singlePoll, createPoll };
+
+export { pollList, singlePoll, createPoll, createVote };
