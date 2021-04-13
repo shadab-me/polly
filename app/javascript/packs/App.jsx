@@ -29,7 +29,6 @@ const App = () => {
   const authToken = getFromLocalStorage("authToken");
   const isLoggedIn =
     !either(isNil, isEmpty)(authToken) && authToken !== "undefined";
-  console.log(isLoggedIn);
   return (
     <Router>
       <NavBar isLoggedIn={isLoggedIn} />

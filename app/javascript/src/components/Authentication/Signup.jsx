@@ -3,15 +3,12 @@ import { Link, useHistory } from "react-router-dom";
 import authApi from "apis/auth";
 import { setToLocalStorage } from "helpers/storage";
 
-export default function Login(props) {
-  const history = useHistory();
-
+function SignUp(props) {
   const [user, setUser] = useState({
     name: "",
     password: "",
     email: "",
   });
-  const [errors, setErrors] = useState("");
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prevState) => ({
@@ -23,15 +20,10 @@ export default function Login(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     authApi.signup({ user }).then(({ data }) => {
-      setToLocalStorage(data.auth_token, data.userId, data.email);
-      redirect();
+      setToLocalStorage(data);
+      window.location.href = "/";
     });
   };
-
-  const redirect = () => {
-    history.push("/");
-  };
-
   return (
     <div>
       <div className="container mx-auto p-8 flex">
@@ -89,17 +81,6 @@ export default function Login(props) {
                     onChange={handleChange}
                   />
                 </div>
-                {errors ? (
-                  <div>
-                    <ul>
-                      {errors.map((error) => {
-                        return <li key={error}>{error}</li>;
-                      })}
-                    </ul>
-                  </div>
-                ) : (
-                  ""
-                )}
 
                 <button
                   type="submit"
@@ -121,3 +102,5 @@ export default function Login(props) {
     </div>
   );
 }
+
+export default SignUp;

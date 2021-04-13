@@ -4,7 +4,6 @@ import authApi from "apis/auth";
 import { setToLocalStorage } from "helpers/storage";
 
 export default function Login(props) {
-  const history = useHistory();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -24,12 +23,8 @@ export default function Login(props) {
     event.preventDefault();
     authApi.login({ login: user }).then(({ data }) => {
       setToLocalStorage(data);
-      redirect();
+      window.location.href = "/";
     });
-  };
-
-  const redirect = () => {
-    history.push("/");
   };
 
   return (
