@@ -1,6 +1,6 @@
 class PollsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :authenticate_user_using_x_auth_token, except: [:index, :show]
+  before_action :authenticate_user_using_x_auth_token, except: [:index]
   before_action :set_poll,  only: [:show]
 
    def index
