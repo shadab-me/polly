@@ -1,6 +1,5 @@
 class VotesController < ApplicationController
-     skip_before_action :verify_authenticity_token
-     before_action :authenticate_user_using_x_auth_token
+      before_action :authenticate_user_using_x_auth_token
      before_action :check_vote_existance, only: %i[create]
 
    def create
