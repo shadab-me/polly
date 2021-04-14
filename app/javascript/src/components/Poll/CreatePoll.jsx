@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
 import { createPoll } from "apis/poll";
-import { set } from "ramda";
 import PageLoader from "../PageLoader";
+import Logger from "js-logger";
 
 const CreatePoll = () => {
   const [loading, setLoading] = useState(false);
@@ -25,16 +23,14 @@ const CreatePoll = () => {
       { value: pollData.option_four },
     ],
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    createPoll({ poll })
-      .then((data) => {
-        if (data) {
-          if (data.status == 201) setStatus(true);
-        }
-      })
-      .catch((error) => Logger.error(error));
-    setLoading(false);
+    try {
+      const res = await createPoll({ poll });
+      setLoading(false);
+    } catch (error) {
+      Logger.ERROR(error);
+    }
   };
 
   const handleChange = (e) => {
@@ -55,7 +51,6 @@ const CreatePoll = () => {
       </h2>
     );
   }
-
   return (
     <>
       <div className="container mx-auto p-8 flex">
@@ -92,6 +87,7 @@ const CreatePoll = () => {
                   </label>
 
                   <input
+                    required
                     type="text"
                     name="option_one"
                     className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
@@ -108,6 +104,7 @@ const CreatePoll = () => {
                   </label>
 
                   <input
+                    required
                     type="text"
                     name="option_two"
                     className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
@@ -124,6 +121,7 @@ const CreatePoll = () => {
                   </label>
 
                   <input
+                    required
                     type="text"
                     name="option_three"
                     className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
@@ -140,6 +138,7 @@ const CreatePoll = () => {
                   </label>
 
                   <input
+                    required
                     type="text"
                     name="option_four"
                     className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"

@@ -4,16 +4,20 @@ import axios from "axios";
 import { pollList } from "apis/poll";
 import { Link } from "react-router-dom";
 import PageLoader from "./PageLoader";
+import Logger from "js-logger";
 
 function Home() {
   const [polls, setPolls] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchPolls = () => {
-    pollList().then(({ data }) => {
+  const fetchPolls = async () => {
+    try {
+      const { data } = await pollList();
       setPolls(data.polls);
       setLoading(false);
-    });
+    } catch (error) {
+      Logger.ERROR(error);
+    }
   };
   useEffect(() => {
     fetchPolls();
@@ -23,7 +27,7 @@ function Home() {
     return <PageLoader />;
   }
   return (
-    <div className="bg-gray-300 mt-10 p-3">
+    <div className="bg-gray-300 mt-10 p-3 pb-10">
       <h1 className="text-4xl text-center font-bold p-5 mt-5 text-blue-900">
         All Polls
       </h1>

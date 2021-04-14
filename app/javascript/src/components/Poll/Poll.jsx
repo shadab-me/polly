@@ -3,6 +3,7 @@ import { singlePoll } from "apis/poll";
 import PageLoader from "../PageLoader";
 import { createVote } from "apis/poll";
 import { getFromLocalStorage } from "../../helpers/storage";
+import Logger from "js-logger";
 
 const Poll = ({ match }) => {
   const id = match.params.id;
@@ -13,41 +14,46 @@ const Poll = ({ match }) => {
   const [selected, setSelected] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const fetchPoll = (id) => {
-    singlePoll(id).then(({ data }) => {
+  const fetchPoll = async (id) => {
+    try {
+      const { data } = await singlePoll(id);
       setTile(data.poll);
       setOptions(data.options);
       setVotes(data.votes);
       setLoading(false);
-    });
+    } catch (error) {
+      Logger.error(error);
+    }
   };
+
   const isVoted = votes.find((vote) => vote.user_id === userId);
 
   const votesCountPercentage = (option_id) => {
     const votesOneOption = votes.filter((vote) => vote.option_id == option_id);
     const percentage = (votesOneOption.length / votes.length) * 100;
-
     return percentage;
   };
+
   const selectedHandler = (id) => {
     setSelected(id);
   };
 
-  const newVote = (poll_id, option_id) => {
+  const newVote = async (poll_id, option_id) => {
     const vote = {
       poll_id,
       option_id,
     };
-    createVote({ vote }).then((data) => setLoading(true));
+    let voteDone = await createVote({ vote });
   };
 
   const submitHandler = (poll_id = id, option_id) => {
     newVote(poll_id, option_id);
+    fetchPoll(id);
   };
 
   useEffect(() => {
     fetchPoll(id);
-  }, [loading]);
+  });
 
   if (loading) {
     return <PageLoader />;

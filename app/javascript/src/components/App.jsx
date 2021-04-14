@@ -13,7 +13,7 @@ import Home from "components/Home";
 import NavBar from "components/NavBar";
 import CreatePoll from "components/Poll/CreatePoll";
 import Poll from "components/Poll/Poll";
-import { getFromLocalStorage, setToLocalStorage } from "../helpers/storage";
+import { getFromLocalStorage, setToLocalStorage } from "helpers/storage";
 import { requestIntercepts, setAuthHeaders } from "apis/axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
