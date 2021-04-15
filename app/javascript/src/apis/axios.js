@@ -50,10 +50,3 @@ export const requestIntercepts = () => {
     return errorResponse(error);
   });
 };
-
-export const resetAuthTokens = () => {
-  delete axios.defaults.headers["X-Auth-Email"];
-  delete axios.defaults.headers["X-Auth-Token"];
-};
-
-export default Toastr;

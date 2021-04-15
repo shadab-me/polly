@@ -28,6 +28,7 @@ const CreatePoll = () => {
     try {
       const res = await createPoll({ poll });
       setLoading(false);
+      setStatus(true);
     } catch (error) {
       Logger.ERROR(error);
     }

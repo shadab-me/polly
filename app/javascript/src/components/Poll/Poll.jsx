@@ -28,7 +28,6 @@ const Poll = ({ match }) => {
   };
 
   const isVoted = votes.find((vote) => vote.user_id == userId);
-  console.log(isVoted);
   const votesCountPercentage = (option_id) => {
     const votesOneOption = votes.filter((vote) => vote.option_id == option_id);
     const percentage = (votesOneOption.length / votes.length) * 100;

@@ -37,7 +37,7 @@ const NavBar = ({ isLoggedIn }) => {
 const AuthHeader = ({ username, logoutHandler }) => {
   return (
     <div className="flex item-center justify-end">
-      <p className="text-dark font-semibold mt-4 p-2">{username}</p>
+      <p className="text-dark font-semibold mt-3 p-2">{username}</p>
       <Link
         to="/createpoll"
         className="font-semibold items-center rounded mx-3 transition duration-75 ease-in-out inline-flex cursor-pointer mt-3  px-6 py-1 h-10 focus:outline-none hover:bg-blue-600 focus:border-none text-blue-200"
