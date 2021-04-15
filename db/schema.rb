@@ -40,9 +40,9 @@ ActiveRecord::Schema.define(version: 2021_04_12_040919) do
   create_table "votes", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "user_id"
-    t.string "poll_id"
-    t.string "option_id"
+    t.integer "user_id"
+    t.integer "poll_id"
+    t.integer "option_id"
   end
 
   add_foreign_key "options", "polls"
