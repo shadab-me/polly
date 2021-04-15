@@ -21,13 +21,14 @@ const Poll = ({ match }) => {
       setOptions(data.options);
       setVotes(data.votes);
       setLoading(false);
+      console.log(data.votes);
     } catch (error) {
       Logger.error(error);
     }
   };
 
-  const isVoted = votes.find((vote) => vote.user_id === userId);
-
+  const isVoted = votes.find((vote) => vote.user_id == userId);
+  console.log(isVoted);
   const votesCountPercentage = (option_id) => {
     const votesOneOption = votes.filter((vote) => vote.option_id == option_id);
     const percentage = (votesOneOption.length / votes.length) * 100;
@@ -44,16 +45,16 @@ const Poll = ({ match }) => {
       option_id,
     };
     let voteDone = await createVote({ vote });
+    fetchPoll(id);
   };
 
   const submitHandler = (poll_id = id, option_id) => {
     newVote(poll_id, option_id);
-    fetchPoll(id);
   };
 
   useEffect(() => {
     fetchPoll(id);
-  });
+  }, []);
 
   if (loading) {
     return <PageLoader />;
