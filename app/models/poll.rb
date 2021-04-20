@@ -1,7 +1,7 @@
 class Poll < ApplicationRecord
    has_many :options, :dependent => :destroy
    has_many :votes, :dependent => :destroy
-    belongs_to :user
+   belongs_to :user
 
     #validation
     validates :value, presence: true

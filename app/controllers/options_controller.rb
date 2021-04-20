@@ -1,5 +1,5 @@
 class OptionsController < ApplicationController
-  before_action :set_option, only: %i[ show edit update destroy ]
+  before_action :set_option, only: %i[ show ]
 
    def create
     @option = Option.new(option_params)
