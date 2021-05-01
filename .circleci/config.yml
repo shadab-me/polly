@@ -15,7 +15,7 @@ jobs:
       RACK_ENV: "test"
 
     steps:
-      - check
+      - checkout
       - run: gem install bundler:2.2.3
 
       #install sqlite dependency
