@@ -1,17 +1,19 @@
-class SessionsController < ApplicationController    
-   def create
+class SessionsController < ApplicationController
+  def create
     user = User.find_by(email: login_params[:email].downcase)
-     if user.present? && user.authenticate(login_params[:password])
-       render status: :ok, json: {auth_token: user.authentication_token, userId: user.id, email: user.email, name:user.name}  
+    if user.present? && user.authenticate(login_params[:password])
+      render status: :ok,
+             json: { auth_token: user.authentication_token, userId: user.id, email: user.email, name: user.name }
     else
-        render status: :unauthorized, json: {
-            notice: "Incorrect credential, try again"
-        }
+      render status: :unauthorized, json: {
+        notice: 'Incorrect credential, try again'
+      }
     end
-    end
-    private 
-    def login_params
-        params.require(:login).permit(:email, :password)
-    end
+  end
 
-    end
+  private
+
+  def login_params
+    params.require(:login).permit(:email, :password)
+  end
+end

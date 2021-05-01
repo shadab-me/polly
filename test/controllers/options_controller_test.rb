@@ -1,21 +1,23 @@
-require "test_helper"
+# frozen_string_literal: true
+
+require 'test_helper'
 
 class OptionsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @option = options(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get options_url
     assert_response :success
   end
 
-  test "should get new" do
+  test 'should get new' do
     get new_option_url
     assert_response :success
   end
 
-  test "should create option" do
+  test 'should create option' do
     assert_difference('Option.count') do
       post options_url, params: { option: { poll_id: @option.poll_id, value: @option.value } }
     end
@@ -23,22 +25,22 @@ class OptionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to option_url(Option.last)
   end
 
-  test "should show option" do
+  test 'should show option' do
     get option_url(@option)
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     get edit_option_url(@option)
     assert_response :success
   end
 
-  test "should update option" do
+  test 'should update option' do
     patch option_url(@option), params: { option: { poll_id: @option.poll_id, value: @option.value } }
     assert_redirected_to option_url(@option)
   end
 
-  test "should destroy option" do
+  test 'should destroy option' do
     assert_difference('Option.count', -1) do
       delete option_url(@option)
     end
