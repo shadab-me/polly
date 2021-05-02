@@ -56,4 +56,5 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'bcrypt', '~> 3.1.13'
 gem 'react-rails'
+gem 'rexml', '~> 3.2.5'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
